@@ -72,7 +72,7 @@ class CoordinatorHandler(checkpointService: CheckpointService,
     }
   }
 
-  private def rethrow(msg: String, failure: Throwable) = throw new Exception(msg, failure.getCause)
+  private def rethrow(msg: String, failure: Throwable) = throw new Exception(msg, Option(failure.getCause).getOrElse(failure))
 
   override def channelRead(ctx: ChannelHandlerContext, msg: AnyRef): Unit = msg match {
     case c: Checkpoint => processAndBlacklistOnFailure(ctx.channel,
